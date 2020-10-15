@@ -8,6 +8,20 @@ $(function () {
         // 指定预览区域
         preview: '.img-preview'
     }
+    getSrc()
+    function getSrc() {
+        $.ajax({
+            style: 'get',
+            url: '/my/userinfo',
+            success(res) {
+                console.log(res.data.user_pic);
+                $image
+                    .cropper('destroy')      // 销毁旧的裁剪区域
+                    .attr('src', res.data.user_pic)  // 重新设置图片路径
+                    .cropper(options)
+            }
+        })
+    }
 
     // 1.3 创建裁剪区域
     $image.cropper(options)
@@ -27,6 +41,7 @@ $(function () {
             .attr('src', newImgURL)  // 重新设置图片路径
             .cropper(options)        // 重新初始化裁剪区域
     })
+
     $('#btnConfirm').on('click', function () {
         var dataURL = $image
             .cropper('getCroppedCanvas', { // 创建一个 Canvas 画布
